@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Relatos Jurídicos Online</title>
+<title>Relatos Jurídicos</title>
 
 <style>
 body {
@@ -18,6 +18,21 @@ header {
     color: #fff;
     padding: 30px;
     text-align: center;
+}
+
+nav {
+    background: rgba(44,62,80,0.95);
+    padding: 12px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 section {
@@ -38,7 +53,7 @@ section {
     border-bottom: none;
 }
 
-.blog-post h3 {
+.blog-post h2 {
     color: #2c3e50;
 }
 
@@ -48,14 +63,11 @@ section {
     margin-bottom: 15px;
 }
 
-input, textarea {
-    width: 100%;
-    margin: 8px 0;
-    padding: 8px;
-    font-size: 16px;
+[contenteditable="true"] {
+    outline: none;
 }
 
-button {
+.salvar {
     background: #2c3e50;
     color: #fff;
     padding: 12px 20px;
@@ -65,7 +77,7 @@ button {
     font-size: 16px;
 }
 
-button:hover {
+.salvar:hover {
     background: #1a252f;
 }
 
@@ -75,198 +87,83 @@ footer {
     text-align: center;
     padding: 15px;
 }
-
-.comment {
-    background: #f0f0f0;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-/* Modal */
-#modal {
-    display:none;
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(0,0,0,0.7);
-    justify-content:center; align-items:center;
-}
-#modal-content {
-    background:#fff;
-    padding:20px;
-    border-radius:10px;
-    max-width:600px;
-    width:90%;
-}
 </style>
-
-<!-- Firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 </head>
+
 <body>
 
 <header>
-    <h1>Relatos Jurídicos Online</h1>
-    <p>Blog pessoal jurídico com publicação e comentários</p>
+    <h1>Relatos Jurídicos</h1>
+    <p>Reflexões, experiências e prática do Direito</p>
 </header>
 
-<!-- Botão Novo Relato -->
-<section id="editor-section">
-    <button onclick="abrirModal()">➕ Novo Relato</button>
+<nav>
+    <a href="#inicio">Relatos</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+</nav>
 
-    <div id="modal">
-        <div id="modal-content">
-            <h2>Escreva o Novo Relato</h2>
-            <input type="text" id="modal-titulo" placeholder="Título">
-            <textarea id="modal-conteudo" rows="6" placeholder="Conteúdo do relato"></textarea>
-            <button onclick="publicarModal()">💾 Publicar</button>
-            <button onclick="fecharModal()">❌ Fechar</button>
+<section id="inicio">
+    <div id="conteudo-editavel" contenteditable="true">
+
+        <div class="blog-post">
+            <h2>Título do Relato</h2>
+            <div class="data">📅 10/02/2026</div>
+            <p>
+                Clique aqui e comece a escrever seu relato jurídico diário.
+                Este espaço funciona como um blog pessoal.
+            </p>
         </div>
+
+        <div class="blog-post">
+            <h2>Outro Relato</h2>
+            <div class="data">📅 09/02/2026</div>
+            <p>
+                Você pode editar, apagar, reorganizar e criar novos relatos
+                diretamente nesta página.
+            </p>
+        </div>
+
     </div>
+
+    <button class="salvar" onclick="salvarConteudo()">💾 Salvar alterações</button>
 </section>
 
-<!-- Relatos -->
-<section id="relatos-section">
-    <h2>Relatos Publicados</h2>
-    <div id="relatos"></div>
+<section id="sobre">
+    <h2>Sobre</h2>
+    <p contenteditable="true" id="sobre-texto">
+        Espaço para falar sobre você, sua atuação e seus objetivos profissionais.
+    </p>
 </section>
 
-<!-- Comentários -->
-<section id="comentarios-section">
-    <h2>Comentários</h2>
-    <div id="comentarios"></div>
-    <textarea id="novo-comentario" placeholder="Escreva um comentário..." rows="3"></textarea>
-    <button onclick="postarComentario()">Postar Comentário</button>
+<section id="contato">
+    <h2>Contato</h2>
+    <p contenteditable="true" id="contato-texto">
+        Email: contato@seudominio.com<br>
+        Telefone: (00) 0000-0000
+    </p>
 </section>
 
 <footer>
-    © 2026 – Relatos Jurídicos Online
+    © 2026 – Relatos Jurídicos
 </footer>
 
 <script>
-  // 🔹 COLE AQUI SEU FIREBASE CONFIG
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+function salvarConteudo() {
+    localStorage.setItem("blogConteudo", document.getElementById("conteudo-editavel").innerHTML);
+    localStorage.setItem("sobreTexto", document.getElementById("sobre-texto").innerHTML);
+    localStorage.setItem("contatoTexto", document.getElementById("contato-texto").innerHTML);
+    alert("Alterações salvas com sucesso!");
+}
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCkCl4k9c2BL0KIlCiGFFVueb3EROc_VtI",
-    authDomain: "cronicas-de-um-entusiasta.firebaseapp.com",
-    projectId: "cronicas-de-um-entusiasta",
-    storageBucket: "cronicas-de-um-entusiasta.firebasestorage.app",
-    messagingSenderId: "88582112779",
-    appId: "1:88582112779:web:ed8239e938ce5763ba690e",
-    measurementId: "G-VSRBMJVW6D"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-    
-  const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_PROJETO.firebaseapp.com",
-    projectId: "SEU_PROJETO",
-    storageBucket: "SEU_PROJETO.appspot.com",
-    messagingSenderId: "XXXXXXXXX",
-    appId: "X:XXXXXXXX:web:XXXXXXXX",
-    measurementId: "G-XXXXXXXX"
-  };
-
-  // Inicializa Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // 🔹 Modal
-  function abrirModal() {
-    document.getElementById("modal").style.display = "flex";
-  }
-  function fecharModal() {
-    document.getElementById("modal").style.display = "none";
-    document.getElementById("modal-titulo").value = "";
-    document.getElementById("modal-conteudo").value = "";
-  }
-
-  // 🔹 Publicar relato pelo modal
-  function publicarModal() {
-    const titulo = document.getElementById("modal-titulo").value;
-    const conteudo = document.getElementById("modal-conteudo").value;
-    if(titulo.trim() === "" || conteudo.trim() === "") return alert("Preencha título e conteúdo!");
-    
-    const data = new Date();
-    db.collection("relatos").add({
-      titulo: titulo,
-      conteudo: conteudo,
-      data: data
-    })
-    .then(() => {
-      fecharModal();
-      carregarRelatos();
-    });
-  }
-
-  // 🔹 Carregar relatos em ordem decrescente
-  function carregarRelatos() {
-    const container = document.getElementById("relatos");
-    container.innerHTML = "";
-    db.collection("relatos").orderBy("data", "desc").get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const r = doc.data();
-        const div = document.createElement("div");
-        div.className = "blog-post";
-        const dataFormatada = r.data.toDate ? r.data.toDate().toLocaleString() : new Date(r.data.seconds*1000).toLocaleString();
-        div.innerHTML = `<h3>${r.titulo}</h3><div class="data">📅 ${dataFormatada}</div><p>${r.conteudo}</p>`;
-        container.appendChild(div);
-      });
-    });
-  }
-
-  // 🔹 Carregar comentários
-  function carregarComentarios() {
-    const container = document.getElementById("comentarios");
-    container.innerHTML = "";
-    db.collection("comentarios").orderBy("data","desc").get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const c = doc.data();
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `<b>${c.usuario}</b>: ${c.texto}`;
-        container.appendChild(div);
-      });
-    });
-  }
-
-  // 🔹 Postar comentário
-  function postarComentario() {
-    const texto = document.getElementById("novo-comentario").value;
-    if(texto.trim() === "") return;
-    db.collection("comentarios").add({
-      usuario: "Visitante",
-      texto: texto,
-      data: new Date()
-    })
-    .then(() => {
-      document.getElementById("novo-comentario").value = "";
-      carregarComentarios();
-    });
-  }
-
-  // 🔹 Inicializar página
-  window.onload = () => {
-    carregarRelatos();
-    carregarComentarios();
-  }
+window.onload = function() {
+    if (localStorage.getItem("blogConteudo")) {
+        document.getElementById("conteudo-editavel").innerHTML = localStorage.getItem("blogConteudo");
+        document.getElementById("sobre-texto").innerHTML = localStorage.getItem("sobreTexto");
+        document.getElementById("contato-texto").innerHTML = localStorage.getItem("contatoTexto");
+    }
+}
 </script>
 
 </body>
 </html>
-
