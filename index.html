@@ -299,6 +299,20 @@ const analytics = getAnalytics(app);
   }
 
   // 🔹 Inicializar página
+    <script>
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    // Usuário logado
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("editor-section").style.display = "block";
+  } else {
+    // Usuário não logado
+    document.getElementById("login-section").style.display = "block";
+    document.getElementById("editor-section").style.display = "none";
+  }
+});
+</script>
+
   window.onload = () => {
     carregarRelatos();
     carregarComentarios();
@@ -307,3 +321,4 @@ const analytics = getAnalytics(app);
 
 </body>
 </html>
+
