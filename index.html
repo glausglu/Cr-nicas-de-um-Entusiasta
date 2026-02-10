@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatos Jurídicos</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Georgia, serif;
+    background-image: url("https://images.unsplash.com/photo-1589829545856-d10d557cf95f");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+header {
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 30px;
+    text-align: center;
+}
+
+nav {
+    background: rgba(44,62,80,0.95);
+    padding: 12px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+section {
+    max-width: 900px;
+    margin: 40px auto;
+    background: rgba(255,255,255,0.96);
+    padding: 35px;
+    border-radius: 10px;
+}
+
+.blog-post {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+.blog-post:last-child {
+    border-bottom: none;
+}
+
+.blog-post h2 {
+    color: #2c3e50;
+}
+
+.data {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+[contenteditable="true"] {
+    outline: none;
+}
+
+.salvar {
+    background: #2c3e50;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.salvar:hover {
+    background: #1a252f;
+}
+
+footer {
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Relatos Jurídicos</h1>
+    <p>Reflexões, experiências e prática do Direito</p>
+</header>
+
+<nav>
+    <a href="#inicio">Relatos</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+</nav>
+
+<section id="inicio">
+    <div id="conteudo-editavel" contenteditable="true">
+
+        <div class="blog-post">
+            <h2>Título do Relato</h2>
+            <div class="data">📅 10/02/2026</div>
+            <p>
+                Clique aqui e comece a escrever seu relato jurídico diário.
+                Este espaço funciona como um blog pessoal.
+            </p>
+        </div>
+
+        <div class="blog-post">
+            <h2>Outro Relato</h2>
+            <div class="data">📅 09/02/2026</div>
+            <p>
+                Você pode editar, apagar, reorganizar e criar novos relatos
+                diretamente nesta página.
+            </p>
+        </div>
+
+    </div>
+
+    <button class="salvar" onclick="salvarConteudo()">💾 Salvar alterações</button>
+</section>
+
+<section id="sobre">
+    <h2>Sobre</h2>
+    <p contenteditable="true" id="sobre-texto">
+        Espaço para falar sobre você, sua atuação e seus objetivos profissionais.
+    </p>
+</section>
+
+<section id="contato">
+    <h2>Contato</h2>
+    <p contenteditable="true" id="contato-texto">
+        Email: contato@seudominio.com<br>
+        Telefone: (00) 0000-0000
+    </p>
+</section>
+
+<footer>
+    © 2026 – Relatos Jurídicos
+</footer>
+
+<script>
+function salvarConteudo() {
+    localStorage.setItem("blogConteudo", document.getElementById("conteudo-editavel").innerHTML);
+    localStorage.setItem("sobreTexto", document.getElementById("sobre-texto").innerHTML);
+    localStorage.setItem("contatoTexto", document.getElementById("contato-texto").innerHTML);
+    alert("Alterações salvas com sucesso!");
+}
+
+window.onload = function() {
+    if (localStorage.getItem("blogConteudo")) {
+        document.getElementById("conteudo-editavel").innerHTML = localStorage.getItem("blogConteudo");
+        document.getElementById("sobre-texto").innerHTML = localStorage.getItem("sobreTexto");
+        document.getElementById("contato-texto").innerHTML = localStorage.getItem("contatoTexto");
+    }
+}
+</script>
+
+</body>
+</html>
